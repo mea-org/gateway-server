@@ -1,0 +1,38 @@
+{
+  "name": "gateway-server",
+  "version": "0.0.1",
+  "description": "The gateway server.",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mea-org/gateway-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mea-org/gateway-server/issues"
+  },
+  "homepage": "https://github.com/mea-org/gateway-server#readme",
+  "devDependencies": {
+    "@types/koa": "^2.0.48",
+    "@types/koa-router": "^7.0.41",
+    "@types/node": "^12.0.10",
+    "@types/request": "^2.48.1",
+    "nodemon": "^1.19.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "iconv-lite": "^0.4.24",
+    "koa": "^2.7.0",
+    "koa-router": "^7.4.0",
+    "request": "^2.88.0"
+  }
+}

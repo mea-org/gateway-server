@@ -1,10 +1,12 @@
 import * as request from 'request';
-import { config } from '../config';
 import * as zlib from 'zlib';
 
-import { MiddlewareConfig } from '../entity-types/MiddlewareConfig';
+import { config } from '../config';
+import { dbUtil } from '../common';
 
-export default <MiddlewareConfig>{
+import { SetpEntity } from '../entity-types/SetpEntity';
+
+export default <SetpEntity>{
   priority: 25,
   name: 'reverse',
   description: 'Reverse request to real address.',
@@ -46,6 +48,8 @@ export default <MiddlewareConfig>{
           if (encoding === 'gzip') {
             resBuffer = zlib.unzipSync(resBuffer);
           }
+          const bodyStr = resBuffer.toString();
+          dbUtil.insertOne('logs', { str: bodyStr });
           resolve();
         })
         .on('error', (err: any) => {

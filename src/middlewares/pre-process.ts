@@ -1,6 +1,6 @@
-import { MiddlewareConfig } from '../entity-types/MiddlewareConfig';
+import { SetpEntity } from '../entity-types/SetpEntity';
 
-export default <MiddlewareConfig>{
+export default <SetpEntity>{
   priority: 0,
   name: 'pre-process',
   description: '',

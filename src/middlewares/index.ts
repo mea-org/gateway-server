@@ -4,7 +4,7 @@ import * as Koa from 'koa';
 import * as compose from 'koa-compose';
 
 import { util } from '../utils';
-import { MiddlewareConfig } from '../entity-types/MiddlewareConfig';
+import { SetpEntity } from '../entity-types/SetpEntity';
 
 class MiddlewareCollection {
   middleware: any;
@@ -32,13 +32,13 @@ class MiddlewareCollection {
         const mod = require(`./${name}`);
         return mod.default;
       })
-      .filter((x: MiddlewareConfig) => util.isFunction(x.handler))
+      .filter((x: SetpEntity) => util.isFunction(x.handler))
       .sort(
-        (x1: MiddlewareConfig, x2: MiddlewareConfig) =>
+        (x1: SetpEntity, x2: SetpEntity) =>
           util.ensureNumber(x1.priority, 0) - util.ensureNumber(x2.priority, 0)
       );
 
-    const handles: any = middleWareList.map((mid: MiddlewareConfig) => mid.handler);
+    const handles: any = middleWareList.map((mid: SetpEntity) => mid.handler);
     // Register middlewares
     this.middleware = compose(handles);
   }

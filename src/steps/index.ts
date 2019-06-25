@@ -6,7 +6,7 @@ import * as compose from 'koa-compose';
 import { util } from '../utils';
 import { SetpEntity } from '../entity-types/SetpEntity';
 
-class MiddlewareCollection {
+class StepExecutor {
   middleware: any;
   constructor() {
     this.init();
@@ -48,4 +48,4 @@ class MiddlewareCollection {
   };
 }
 
-export const middleware = new MiddlewareCollection();
+export const stepExecutor = new StepExecutor();

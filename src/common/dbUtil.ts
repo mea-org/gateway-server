@@ -1,4 +1,4 @@
-import { MongoClient, FilterQuery } from 'mongodb';
+import { MongoClient, FilterQuery, FindOneOptions } from 'mongodb';
 import { config } from '../config';
 
 class DbUtil {
@@ -10,7 +10,7 @@ class DbUtil {
     if (this.client && this.client.isConnected()) {
       return Promise.resolve(this.client);
     }
-    return MongoClient.connect(config.dbUrl)
+    return MongoClient.connect(config.dbUrl, { useNewUrlParser: true })
       .then((client: MongoClient) => {
         this.client = client;
         return client;
@@ -27,7 +27,7 @@ class DbUtil {
   }
 
   /**
-   *
+   * 计算数量
    * @param colName
    * @param query
    */
@@ -53,9 +53,21 @@ class DbUtil {
    * @param colName
    * @param filter
    */
-  findOne(colName: string, filter: FilterQuery<any>) {
+  findOne(colName: string, filter: FilterQuery<any>, options?: FindOneOptions) {
     return this.collection(colName).then(col => {
-      return col.findOne(filter);
+      return col.findOne(filter, options);
+    });
+  }
+
+  /**
+   * 查询列表
+   * @param colName
+   * @param filter
+   * @param options
+   */
+  find(colName: string, filter: FilterQuery<any>, options?: FindOneOptions) {
+    return this.collection(colName).then(col => {
+      return col.find(filter, options);
     });
   }
 }

@@ -1,3 +1,5 @@
+import * as lodash from 'lodash';
+
 export const util = {
   /**
    * Is function.
@@ -23,5 +25,9 @@ export const util = {
   ensureNumber(n: any, defaultValue: number = 0) {
     n = +n;
     return util.isNaN(n) ? defaultValue : n;
+  },
+
+  random(min: number, max: number) {
+    return lodash.random(min, max);
   }
 };

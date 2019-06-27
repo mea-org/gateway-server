@@ -1,43 +1,36 @@
 import * as request from 'request';
 import * as zlib from 'zlib';
-import { ForeverAgent } from '../common/ForeverAgent';
 
 import { config } from '../config';
 import { dbUtil } from '../common';
 
-import { SetpEntity } from '../entity-types/SetpEntity';
+import { SetpEntity, GatewayData } from '../entity-types';
+import * as http from 'http';
 
-const foreverAgent = new ForeverAgent({ keepAlive: true, maxSockets: 20, maxFreeSockets: 10 });
+// const agent = new http.Agent({ keepAlive: true, maxSockets: 20, maxFreeSockets: 10 });
 
 export default <SetpEntity>{
   priority: 25,
   name: 'reverse',
   description: 'Reverse request to real address.',
   handler: async (ctx, next) => {
-    const forwardInfo = ctx.state.$$gateway.forwardInfo || {
-      host: 'www.baidu.com',
-      path: '/'
-    };
-    const realUri = `http://${forwardInfo.host}${forwardInfo.path}`;
+    const gatewayData: GatewayData = ctx.state.$$gateway;
     // 手动处理请求
     ctx.respond = false;
     // Pipe request
     const requestOpt: any = {
       method: ctx.method,
-      url: realUri,
-      timeout: config.reverseTimeout,
-      agent: foreverAgent
+      url: gatewayData.reverseUrl,
+      timeout: config.reverseTimeout
     };
     const req = ctx.req.pipe(
       request(requestOpt),
       { end: true }
     );
     req.pipe(ctx.res);
-
     return new Promise((resolve, reject) => {
       // Record response
       let resBuffer = Buffer.from([]);
-      // let responseBufferArr = [];
       req
         .on('response', (res: any) => {
           ctx.state.$$gateway.resStatusCode = res.statusCode;
@@ -53,7 +46,7 @@ export default <SetpEntity>{
             resBuffer = zlib.unzipSync(resBuffer);
           }
           const bodyStr = resBuffer.toString();
-          dbUtil.insertOne('logs', { str: bodyStr });
+          gatewayData.resBody = bodyStr;
           resolve();
         })
         .on('error', (err: any) => {

@@ -25,7 +25,6 @@ class StepExecutor {
 
   init() {
     const mList = this._getMiddlewareList();
-
     // Load middlewares, handler must exists, sort by priority asc.
     const middleWareList: any[] = mList
       .map((name: string) => {

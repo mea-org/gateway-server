@@ -30,7 +30,7 @@ function appendTraceInfo(gatewayData: GatewayData, ctx: Context) {
 function saveRequestToDB(gatewayData: GatewayData) {
   const endTime = process.uptime() * 1000;
   const ms = endTime - gatewayData.startUptime;
-  console.log('总开销', ms, gatewayData);
+  console.log('总开销', ms, '1');
 }
 
 export default <SetpEntity>{

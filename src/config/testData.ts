@@ -1,6 +1,6 @@
 import { AppEntity } from '../entity-types';
 
-const appDatas: AppEntity[] = [
+export const testData: AppEntity[] = [
   {
     appName: 'Test',
     apiBase: '',
@@ -13,8 +13,3 @@ const appDatas: AppEntity[] = [
     ]
   }
 ];
-
-export const demoData = appDatas.reduce((result: any, app) => {
-  result[app.appId] = app;
-  return result;
-}, {});

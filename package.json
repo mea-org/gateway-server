@@ -37,6 +37,7 @@
     "@koa/cors": "^3.0.0",
     "iconv-lite": "^0.4.24",
     "koa": "^2.7.0",
+    "koa-body": "^4.1.0",
     "koa-router": "^7.4.0",
     "lodash": "^4.17.11",
     "lru-cache": "^5.1.1",

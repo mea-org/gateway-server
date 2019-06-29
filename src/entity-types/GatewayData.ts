@@ -1,6 +1,9 @@
 import { AppEntity } from './AppEntity';
 
 export interface GatewayData {
+  requestId?: string;
+  requestParentSpanId?: string;
+  requestSpanId?: string;
   startUptime: number;
   endUptime?: number;
   appInfo?: AppEntity;

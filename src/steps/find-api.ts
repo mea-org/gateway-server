@@ -4,7 +4,7 @@ import { util } from '../utils';
 import { demoData } from '../config/demoData';
 
 export default <SetpEntity>{
-  priority: 5,
+  priority: 10,
   name: 'find-api',
   description: '找到API',
   handler: async (ctx, next) => {

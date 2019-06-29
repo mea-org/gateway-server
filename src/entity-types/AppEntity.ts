@@ -9,4 +9,5 @@ export interface AppEntity {
   appId: string;
   loadBalanceMode: 'polling' | 'iphash'; // iphash, polling
   apiHosts: ApiHost[];
+  enableCors: boolean;
 }

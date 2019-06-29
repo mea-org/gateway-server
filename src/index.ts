@@ -11,9 +11,10 @@ app.use(async ctx => {
   ctx.body = 'Gateway server.';
 });
 
-app
+const server = app
   .listen(9000, () => {
-    console.info('Started...');
+    const addr = server.address();
+    console.info('Started...', addr);
   })
   .on('error', err => {
     console.error(err);

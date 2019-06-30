@@ -67,7 +67,7 @@ class DbUtil {
    */
   find(colName: string, filter: FilterQuery<any>, options?: FindOneOptions) {
     return this.collection(colName).then(col => {
-      return col.find(filter, options);
+      return col.find(filter, options).toArray();
     });
   }
 }

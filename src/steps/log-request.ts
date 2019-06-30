@@ -1,7 +1,7 @@
 import { Context } from 'koa';
 import { SetpEntity, GatewayData, ReqlogsEntity } from '../entity-types';
 import { util } from '../utils';
-import { dbUtil } from '../common';
+import { dbUtil, bizUtil } from '../common';
 
 function recordRequest(gatewayData: GatewayData, ctx: Context) {
   // 保存请求 headers
@@ -31,7 +31,7 @@ function appendTraceInfo(gatewayData: GatewayData, ctx: Context) {
 function saveRequestToDB(gatewayData: GatewayData) {
   const endTime = process.uptime() * 1000;
   const responseTime = endTime - gatewayData.startUptime;
-  const collectionName = `reqlogs_${gatewayData.appInfo.appId}`;
+  const collectionName = bizUtil.getCollectionName(gatewayData.appInfo.appId);
   const reqLog: ReqlogsEntity = {
     startTime: gatewayData.startTime,
     responseTime,

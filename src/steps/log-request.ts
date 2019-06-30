@@ -33,6 +33,7 @@ function saveRequestToDB(gatewayData: GatewayData) {
   const responseTime = endTime - gatewayData.startUptime;
   const collectionName = `reqlogs_${gatewayData.appInfo.appId}`;
   const reqLog: ReqlogsEntity = {
+    startTime: gatewayData.startTime,
     responseTime,
     statusCode: gatewayData.resStatusCode,
     requestId: gatewayData.requestId,
@@ -52,9 +53,10 @@ function saveRequestToDB(gatewayData: GatewayData) {
 export default <SetpEntity>{
   priority: 0,
   name: 'log-request',
-  description: '请求日志记录',
+  description: '记录单次请求日志',
   handler: async (ctx, next) => {
     const gatewayData = (ctx.state.$$gateway = <GatewayData>{
+      startTime: Date.now(),
       startUptime: process.uptime() * 1000
     });
     // 增加跟踪信息

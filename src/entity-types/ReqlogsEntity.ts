@@ -1,5 +1,6 @@
 export interface ReqlogsEntity {
   responseTime: number; // 响应时间
+  startTime: number; // 请求开始时间
   statusCode: number; // 响应状态码
   requestId: string; // 请求ID
   requestSpanId: string; // 请求的 Span ID

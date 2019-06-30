@@ -1,6 +1,7 @@
-import { SetpEntity, GatewayData } from '../entity-types';
-import { util } from '../utils';
 import { Context } from 'koa';
+import { SetpEntity, GatewayData, ReqlogsEntity } from '../entity-types';
+import { util } from '../utils';
+import { dbUtil } from '../common';
 
 function recordRequest(gatewayData: GatewayData, ctx: Context) {
   // 保存请求 headers
@@ -29,8 +30,23 @@ function appendTraceInfo(gatewayData: GatewayData, ctx: Context) {
 
 function saveRequestToDB(gatewayData: GatewayData) {
   const endTime = process.uptime() * 1000;
-  const ms = endTime - gatewayData.startUptime;
-  console.log('总开销', ms, '1');
+  const responseTime = endTime - gatewayData.startUptime;
+  const collectionName = `reqlogs_${gatewayData.appInfo.appId}`;
+  const reqLog: ReqlogsEntity = {
+    responseTime,
+    statusCode: gatewayData.resStatusCode,
+    requestId: gatewayData.requestId,
+    requestSpanId: gatewayData.requestSpanId,
+    requestParentSpanId: gatewayData.requestParentSpanId || '',
+    reqHeaders: gatewayData.reqHeaders,
+    reqBody: gatewayData.reqBody,
+    resHeaders: gatewayData.resHeaders,
+    resBody: gatewayData.resBody,
+    reverseUrl: gatewayData.reverseUrl
+  };
+  dbUtil.insertOne(collectionName, reqLog).catch(err => {
+    console.error('save request log to db failed,', reqLog);
+  });
 }
 
 export default <SetpEntity>{
